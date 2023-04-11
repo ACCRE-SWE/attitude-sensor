@@ -112,9 +112,11 @@ public class AeyriumSensorPlugin implements EventChannel.StreamHandler {
 
     double pitch = - orientation[1];
     double roll = - orientation[2];
-    double[] sensorValues = new double[2];
+    double yaw = - orientation[0];
+    double[] sensorValues = new double[3];
     sensorValues[0] = pitch;
     sensorValues[1] = roll;
+    sensorValues[2] = yaw;
     events.success(sensorValues);
   }
 }
