@@ -108,15 +108,22 @@ public class AeyriumSensorPlugin implements EventChannel.StreamHandler {
 
     // Transform rotation matrix into azimuth/pitch/roll
     float[] orientation = new float[3];
+    float [] quaternion = new float[4];
     SensorManager.getOrientation(adjustedRotationMatrix, orientation);
+SensorManager.GetQuaternionFromVector(quaternion , rotationVector));
 
     double pitch = - orientation[1];
     double roll = - orientation[2];
     double yaw = - orientation[0];
-    double[] sensorValues = new double[3];
+    double[] sensorValues = new double[7];
     sensorValues[0] = pitch;
     sensorValues[1] = roll;
     sensorValues[2] = yaw;
+    sensorValues[3] = quaternion[1]
+    sensorValues[4] = quaternion[2]
+    sensorValues[5] = quaternion[3]
+    sensorValues[6] = quaternion[0]
+
     events.success(sensorValues);
   }
 }

@@ -16,7 +16,12 @@ class SensorEvent {
 
   final double yaw;
 
-  SensorEvent(this.pitch, this.roll, this.yaw);
+  final double x;
+  final double y;
+  final double z;
+  final double w;
+
+  SensorEvent(this.pitch, this.roll, this.yaw, this.x, this.y, this.z, this.w);
 
   @override
   String toString() => '[Event: (pitch: $pitch, roll: $roll)]';
@@ -38,6 +43,7 @@ class AeyriumSensor {
   }
 
   static SensorEvent _listToSensorEvent(List<double> list) {
-    return SensorEvent(list[0], list[1], list[2]);
+    return SensorEvent(
+        list[0], list[1], list[2], list[3], list[4], list[5], list[6]);
   }
 }

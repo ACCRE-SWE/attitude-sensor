@@ -23,11 +23,15 @@ void _initMotionManager() {
   }
 }
 
-static void sendData(Float64 pitch, Float64 roll, Float64 yaw, FlutterEventSink sink) {
+static void sendData(Float64 pitch, Float64 roll, Float64 yaw,Float64 x, Float64 y, Float64 z, Float64 w,  FlutterEventSink sink) {
   NSMutableData* event = [NSMutableData dataWithCapacity:2 * sizeof(Float64)];
   [event appendBytes:&pitch length:sizeof(Float64)];
   [event appendBytes:&roll length:sizeof(Float64)];
   [event appendBytes:&yaw length:sizeof(Float64)];
+  [event appendBytes:&x length:sizeof(Float64)];
+  [event appendBytes:&y length:sizeof(Float64)];
+  [event appendBytes:&z length:sizeof(Float64)];
+  [event appendBytes:&w length:sizeof(Float64)];
   sink([FlutterStandardTypedData typedDataWithFloat64:event]);
 }
 
@@ -44,7 +48,7 @@ double degrees(double radians) {
    startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryCorrectedZVertical toQueue:[[NSOperationQueue alloc] init]
    withHandler:^(CMDeviceMotion* data, NSError* error) {
       CMAttitude *attitude = data.attitude;
-    //  CMQuaternion quat = attitude.quaternion;
+      CMQuaternion quat = attitude.quaternion;
    
     //  CMDeviceMotion *deviceMotion = data;
      
@@ -75,7 +79,7 @@ double degrees(double radians) {
     //  double roll = -(atan2(2*(quat.y*quat.w - quat.x*quat.z), 1 - 2*quat.y*quat.y - 2*quat.z*quat.z)) ;
     //  double roll2 = -(atan2(-a.m13, a.m33)); //roll based on android code from matrix
     //  double rollGravity =  atan2(data.gravity.x, data.gravity.y) - M_PI; //roll based on just gravity
-     sendData(attitude.pitch, attitude.roll, attitude.yaw , eventSink);
+     sendData(attitude.pitch, attitude.roll, attitude.yaw ,quat.x,quat.y,quat.z,quat.w, eventSink);
    }];
   return nil;
 }
